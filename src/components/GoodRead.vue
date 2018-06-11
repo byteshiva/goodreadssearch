@@ -24,11 +24,11 @@
             </li>
         </ul>
          <ul v-if="pageshow">
-            <li v-if="prevshow"><a :href="getPrev(581)">Previous</a></li>
-                <li v-for="(item, key, index) in getPagination (581)"  :key="index">
+            <li v-if="prevshow"><a :href="getPrev(1)">Previous</a></li>
+                <li v-for="(item, key, index) in getPagination (1)"  :key="index">
                 <a :href="item+1" @click="returnResults" >{{ item + 1}} </a>
             </li>
-            <li v-if="nextshow" ><a :href="getNext(581)">Next</a></li>
+            <li v-if="nextshow" ><a :href="getNext(1)">Next</a></li>
         </ul>
     </div> 
   </div>
@@ -37,7 +37,7 @@
 <script>
 import axios from 'axios';
 var parseString = require('xml2js').parseString;
-var gdkey = process.env;
+
 
 export default {
     name: 'GoodReads',
@@ -48,7 +48,7 @@ export default {
     data: function () {
         return {
             keyword: '',
-            grkey: (process.env.GOODREAD_KEY)?process.env.GOODREAD_KEY:'ENTER-YOUR-KEY',
+            grkey: (process.env.GOODREAD_KEY)?process.env.GOODREAD_KEY:'0IiCewoZagmavCHQVoVyPQ',
             page: 0,
             show: false,
             pageshow: false,
@@ -68,7 +68,8 @@ export default {
             var obj = this;
             this.show = true;
             this.page = (obj.id)?(obj.id):obj.page;
-            axios.get("http://cors-anywhere.herokuapp.com/https://www.goodreads.com/search.xml?key="+ this.grkey + "&q=" + this.keyword + '&page=' + this.page)
+            var config = {headers: {"X-Requested-With" : "XMLHttpRequest"}};
+            axios.get("https://cors-anywhere.herokuapp.com/https://www.goodreads.com/search.xml?key="+ this.grkey + "&q=" + this.keyword + '&page=' + this.page, config )
             .then(function(response){
                 parseString(response.data, function (err, result) {
                     obj.results = result.GoodreadsResponse.search[0].results[0].work;
@@ -121,7 +122,6 @@ export default {
     getPrev (selectedPage) {
         var obj = this;
         var retObj = obj.getStartAndEnd(selectedPage);
-        console.log("process.env.GOODREAD_KEY", process.env.GOODREAD_KEY, gdkey);
         if(retObj.start > 0){
             return retObj.start;
         }
@@ -145,7 +145,6 @@ export default {
         var start =  parseInt((selectedPage - 1), 10);
         if ((resultsPerPage - start) < 20)
         var end = parseInt(resultsPerPage + start, 10);
-        console.log(start, end);
         return {start, end, paginationArr};
     }, 
     getPagination (selectedPage) {
