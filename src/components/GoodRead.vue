@@ -197,13 +197,23 @@ export default {
             var start =  parseInt((selectedPage - 1), 10);
             if ((resultsPerPage - start) < 20)
             var end = parseInt(resultsPerPage + start, 10);
+            if(end > N) {
+                var end = N;
+            }
             return {start, end, paginationArr};
         }, 
         getPagination () {
             var obj = this;
+            var N = obj.getTotalResults();
+
             var selectedPage = (obj.$route.params.id != undefined)?(obj.$route.params.id):obj.page+1;
+            console.log(selectedPage, N);
             if (selectedPage > 1) 
                 obj.prevshow = true;
+            
+            if(selectedPage < N)
+                obj.nextshow = true;
+
             var retObj = obj.getStartAndEnd(selectedPage);
             return retObj.paginationArr.slice(retObj.start, retObj.end);
         },
