@@ -47,8 +47,22 @@ var parseString = require('xml2js').parseString;
 export default {
     name: 'GoodReads',
     props: {
-        msg: String,
-        id: Number
+        msg: {
+            type: String,
+            default: 'Vue!'
+        },
+        id: {
+            type: Number,
+            default: 0
+        },
+        gdenv: {
+            type: String,
+            default: 'prod'
+        },
+        gdrelpath: {
+            type: String,
+            default: '/goodreadssearch/'
+        },
     },
     data: function () {
         return {
@@ -68,7 +82,8 @@ export default {
             totalResults: [],
             source: [],
             queryTimeSeconds: [],
-            btnclicked: true
+            btnclicked: true,
+            baseurlgh: '',
         }
     },
     methods: {
@@ -77,7 +92,8 @@ export default {
             // Check if the flow is from pagination or from submit button
             if(!obj.btnclicked) {
                 obj.btnclicked = true;
-            } else  {
+            } 
+            else  {
                 // If button clicked reset the navigation to root,ie., '/'
                 this.$router.push({ name: 'home', path: '/' });
             }
@@ -87,7 +103,7 @@ export default {
             // You can any cleanup methods if needed
             return true;
         },
-        returnResults: function(event) {
+        returnResults: function() {
             var obj = this;
             this.show = true;
             this.page = (obj.$route.params.pd)?(obj.$route.params.pd):obj.page;
