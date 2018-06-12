@@ -10,7 +10,7 @@ import GoodRead from './components/GoodRead.vue'
 export default {
   name: 'app',
   components: {
-    GoodRead 
+    GoodRead
   }
 }
 </script>
