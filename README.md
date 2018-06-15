@@ -1,4 +1,4 @@
-# goodreadssearch
+# Goodreads Search App [![CircleCI](https://circleci.com/gh/byteshiva/goodreadssearch.svg?style=svg)](https://circleci.com/gh/byteshiva/goodreadssearch)
 
 # Build Setup
 
