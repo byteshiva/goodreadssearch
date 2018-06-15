@@ -15,6 +15,8 @@ yarn run build
 # run unit tests
 yarn run test:unit
 
+# run e2e tests
+npm run e2e
 
 ```
 
