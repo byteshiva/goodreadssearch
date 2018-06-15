@@ -16,7 +16,7 @@ yarn run build
 yarn run test:unit
 
 # run e2e tests
-npm run e2e
+yarn run test:e2e
 
 ```
 
